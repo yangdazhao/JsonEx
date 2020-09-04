@@ -2,6 +2,7 @@ package JsonEx
 
 import (
 	"encoding/json"
+	"github.com/henrylee2cn/mahonia"
 	"io/ioutil"
 	"fmt"
 	"bytes"
@@ -60,6 +61,15 @@ func (jst *JsonStruct) Save(filename string, v interface{}) {
 	newData, _ := json.Marshal(v)
 	
 	err := ioutil.WriteFile(filename, newData, 666)
+	if err != nil {
+		return
+	}
+}
+
+func (jst *JsonStruct) SaveGBK(filename string, v interface{}) {
+	newData, _ := json.Marshal(v)
+	ret, _ := mahonia.NewEncoder("gbk").ConvertStringOK(string(newData))
+	err := ioutil.WriteFile(filename, []byte(ret), 666)
 	if err != nil {
 		return
 	}
